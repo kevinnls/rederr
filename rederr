@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
 printout(){
-    while read outln; do echo -e "$outln"; done
+    local outfmt=${outfmt:-0}
+    while read outln; do echo -e "\033[${outfmt}m${outln}\033[0m"; done
 }
 printerr(){
-    while read errln; do echo -e "\033[31m$errln\033[0m"; done
+    local errfmt=${outfmt:-31}
+    while read errln; do echo -e "\033[${errfmt}m${errln}\033[0m"; done
 }
 
 1> >(printout) 2> >(printerr) exec "$@"
