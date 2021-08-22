@@ -1,18 +1,10 @@
 #!/usr/bin/env bash
 
 main(){
-    1> >(printout) 2> >(printerr) exec "$@"
+    1> >(while read outln; do echo -e "\033[${outfmt:-0}m${outln}\033[0m"; done) \
+    2> >(while read errln; do echo -e "\033[${errfmt:-31}m${errln}\033[0m"; done) \
+    exec "$@"
     exit $?
-}
-
-printout(){
-    local outfmt=${outfmt:-0}
-    while read outln; do echo -e "\033[${outfmt}m${outln}\033[0m"; done
-}
-
-printerr(){
-    local errfmt=${outfmt:-31}
-    while read errln; do echo -e "\033[${errfmt}m${errln}\033[0m"; done
 }
 
 main "$@"
