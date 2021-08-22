@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+printout(){
+    while read outln; do echo -e "$outln"; done
+}
+printerr(){
+    while read errln; do echo -e "\033[31m$errln\033[0m"; done
+}
+
+1> >(printout) 2> >(printerr) exec "$@"
+exit $?
