@@ -11,9 +11,10 @@ read_and_format_with(){
     fi
 
     while read -r input; do
+        printf '\033[0m'
         printf '\033[%sm' "${1:-0}"
         printf '%s' "${input}"
-        printf '\033[39;49;0m'
+        printf '\033[0m'
         printf '\n'
     done
 }
