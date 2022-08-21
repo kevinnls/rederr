@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+## by Kevin Samuel <developer@kevinnlsamuel.com>
+## https://github.com/kevinnls/rederr
+
 if [[ -n "${DEBUG_rederr}" ]]; then set -x; fi
 
 set -e
