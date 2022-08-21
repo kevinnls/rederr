@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+if [[ -n "${DEBUG_rederr}" ]]; then set -x; fi
+
+set -e
+
 main(){
     1> >(while read -r outln; do echo -e "\033[${outfmt:-0}m${outln}\033[0m"; done) \
     2> >(while read -r errln; do echo -e "\033[${errfmt:-31}m${errln}\033[0m"; done) \
