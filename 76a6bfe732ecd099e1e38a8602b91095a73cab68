@@ -1,0 +1,26 @@
+[BUG]: out_format leaks into err_format
+
+```
+out_format='47;32' err_format='31' rederr stdouterr
+```
+
+the above sets bgcolor white on stdout
+as well as stderr
+
+leak occurs even when no output is printed
+[`stdouterr -t` (don't print output)]
+
+i would assume this is because buffered vs unbuffered
+
+bug will not occur if both out_ and err_ set their
+own attributes of the same type/opposing attributes, i.e.
+
+```
+out_format='47;32' err_format='40;31' rederr stdouterr
+```
+out_ sets bg white; err_ sets bg black
+
+```
+out_format='4;32' err_format='24;31' rederr stdouterr
+```
+out_ underlines; err_ unsets underline
