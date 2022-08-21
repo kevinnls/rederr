@@ -23,7 +23,6 @@ main(){
 	1> >(read_and_format_with "${out_format:-0}") \
 	2> >(read_and_format_with "${err_format:-31}") \
 	exec "$@"
-	exit $?
 }
 
 main "$@"
