@@ -5,7 +5,7 @@ if [[ -n "${DEBUG_rederr}" ]]; then set -x; fi
 set -e
 
 read_and_format_with(){
-    if [[ -n "${1}" ]] && ! [[ "${1}" =~ ^([0-9\;]+)$ ]]; then
+    if [[ -n "${1}" ]] && ! [[ "${1}" =~ ^([0-9]{1,3}\;)*([0-9]{1,3})$ ]]; then
 	    >&2 printf 'ERR: rederr: `%s` is invalid formatting\n' "${1}"
 	    exit 1
     fi
