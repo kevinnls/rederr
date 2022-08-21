@@ -4,9 +4,23 @@ if [[ -n "${DEBUG_rederr}" ]]; then set -x; fi
 
 set -e
 
+read_and_format_with(){
+    if [[ -n "${1}" ]] && ! [[ "${1}" =~ ^([0-9\;]+)$ ]]; then
+	    >&2 printf 'ERR: rederr: `%s` is invalid formatting\n' "${1}"
+	    exit 1
+    fi
+
+    while read -r input; do
+        printf '\033[%sm' "${1:-0}"
+        printf '%s' "${input}"
+        printf '\033[39;49;0m'
+        printf '\n'
+    done
+}
+
 main(){
-    1> >(while read -r outln; do echo -e "\033[${outfmt:-0}m${outln}\033[0m"; done) \
-    2> >(while read -r errln; do echo -e "\033[${errfmt:-31}m${errln}\033[0m"; done) \
+    1> >(read_and_format_with "${out_format:-0}") \
+    2> >(read_and_format_with "${err_format:-31}") \
     exec "$@"
     exit $?
 }
