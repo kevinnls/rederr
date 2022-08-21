@@ -5,25 +5,25 @@ if [[ -n "${DEBUG_rederr}" ]]; then set -x; fi
 set -e
 
 read_and_format_with(){
-    if [[ -n "${1}" ]] && ! [[ "${1}" =~ ^([0-9]{1,3}\;)*([0-9]{1,3}){1}$ ]]; then
-	    >&2 printf 'ERR: rederr: `%s` is invalid formatting\n' "${1}"
-	    exit 1
-    fi
+	if [[ -n "${1}" ]] && ! [[ "${1}" =~ ^([0-9]{1,3}\;)*([0-9]{1,3}){1}$ ]]; then
+		>&2 printf 'ERR: rederr: `%s` is invalid formatting\n' "${1}"
+		exit 1
+	fi
 
-    while read -r input; do
-        printf '\033[0m'
-        printf '\033[%sm' "${1:-0}"
-        printf '%s' "${input}"
-        printf '\033[0m'
-        printf '\n'
-    done
+	while read -r input; do
+		printf '\033[0m'
+		printf '\033[%sm' "${1:-0}"
+		printf '%s' "${input}"
+		printf '\033[0m'
+		printf '\n'
+	done
 }
 
 main(){
-    1> >(read_and_format_with "${out_format:-0}") \
-    2> >(read_and_format_with "${err_format:-31}") \
-    exec "$@"
-    exit $?
+	1> >(read_and_format_with "${out_format:-0}") \
+	2> >(read_and_format_with "${err_format:-31}") \
+	exec "$@"
+	exit $?
 }
 
 main "$@"
